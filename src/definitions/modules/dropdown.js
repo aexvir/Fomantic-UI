@@ -1007,6 +1007,15 @@ $.fn.dropdown = function(parameters) {
                 }
               }
             });
+
+            if($input.is('select')) {
+              $input.html('');
+              $input.append('<option value=""></option>');
+              $.each(values, function(index, item) {
+                $input.append('<option value="' + item.value + '">' + item.name + '</option>');
+              });
+              module.refresh();
+            }
           }
         },
 
@@ -1840,7 +1849,7 @@ $.fn.dropdown = function(parameters) {
           },
           value: function() {
             var
-              value = ($input.length > 0)
+              value = ($input.val() !== undefined)
                 ? $input.val()
                 : $module.data(metadata.value),
               isEmptyMultiselect = (Array.isArray(value) && value.length === 1 && value[0] === '')
@@ -2595,6 +2604,7 @@ $.fn.dropdown = function(parameters) {
                 module.add.optionValue(value);
               }
               module.debug('Updating input value', escapedValue, currentValue);
+              console.log(escapedValue);
               internalChange = true;
               $input
                 .val(escapedValue)
